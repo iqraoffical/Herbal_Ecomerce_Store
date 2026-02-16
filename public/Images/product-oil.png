@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="350" height="350" viewBox="0 0 350 350">
+  <rect width="350" height="350" fill="#e5f3e9"/>
+  <circle cx="175" cy="175" r="120" fill="#22c55e"/>
+  <text x="175" y="175" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="20" font-family="Arial">Product Oil</text>
+</svg>
