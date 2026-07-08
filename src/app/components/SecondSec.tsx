@@ -11,7 +11,7 @@ export default function SecondSec() {
 
           <div className="flex justify-center items-center mt-8 md:mt-20">
             <Image
-              src="/Images/leafimg.png"
+              src="/Images/Organic.png"
               alt="leaf"
               width={250}
               height={150}
@@ -40,7 +40,7 @@ export default function SecondSec() {
           {/* Feature 2 */}
           <div className="flex items-start gap-4">
             <Image
-              src="/Images/skin.png"
+              src="/Images/serum.png"
               alt="icon"
               width={41.63}
               height={41.63}

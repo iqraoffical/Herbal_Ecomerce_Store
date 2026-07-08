@@ -1,237 +1,251 @@
-# Herbal Hair Oil E-commerce Platform
+# Herbal Ecommerce Website
 
-A complete e-commerce solution for a herbal hair oil brand with frontend (Next.js) and backend (FastAPI).
+A modern, full-stack herbal ecommerce website built with Next.js 15 and Sanity CMS.
 
-## 🌿 Features
+## 🚀 Features
 
-### Frontend
-- Modern, responsive design with herbal green theme
-- Product showcase with detailed information
-- Order form with validation
-- Contact page with social media links
-- Delivery information page
-- WhatsApp integration for orders
-- Mobile-first responsive design
-
-### Backend
-- JWT-based authentication for admin users
-- Order management system
-- CRUD operations for orders
-- Tracking ID generation
-- Status updates for orders
-- Secure password hashing
-- Proper error handling
-- PostgreSQL database integration
-
-### Admin Dashboard
-- Login with JWT authentication
-- View all orders in a table
-- Update order status (pending, shipped, delivered)
-- Add tracking IDs
-- Real-time order management
+- **Product Management**: Complete product catalog with categories, pricing, and inventory
+- **Sanity CMS Backend**: Headless CMS for easy content management
+- **Responsive Design**: Mobile-first design that works on all devices
+- **Product Categories**: Organized products by categories (teas, oils, herbs, tinctures)
+- **Shopping Cart**: Add to cart functionality with quantity management
+- **Product Detail Pages**: Detailed product information with images, descriptions, benefits, and ingredients
+- **Featured Products**: Showcase bestselling and featured products on homepage
+- **Customer Testimonials**: Display customer reviews and ratings
+- **Search & Filter**: Search products and filter by categories
+- **Sanity Studio**: Built-in content management interface at `/studio`
 
 ## 🛠️ Tech Stack
 
-### Frontend
-- Next.js 15 (App Router)
-- React 19
-- TypeScript
-- Tailwind CSS
-- Lucide React Icons
+- **Frontend**: Next.js 15, React 19, TypeScript
+- **Backend/CMS**: Sanity CMS v3
+- **Styling**: Tailwind CSS v4
+- **UI Components**: Radix UI, Lucide Icons
+- **Notifications**: Sonner (toast notifications)
+- **Image Handling**: Next.js Image optimization, Sanity Image URL
 
-### Backend
-- FastAPI
-- PostgreSQL
-- SQLAlchemy ORM
-- JWT Authentication
-- Python 3.11
+## 📦 Installation
 
-## 📁 Project Structure
+1. **Clone the repository**:
+   ```bash
+   git clone <repository-url>
+   cd herbal_ecomweb
+   ```
+
+2. **Install dependencies**:
+   ```bash
+   npm install --legacy-peer-deps
+   ```
+
+3. **Set up environment variables**:
+   Create a `.env.local` file in the root directory:
+   ```env
+   NEXT_PUBLIC_SANITY_PROJECT_ID=jfxnntpa
+   NEXT_PUBLIC_SANITY_DATASET=production
+   NEXT_PUBLIC_SANITY_API_VERSION=2026-05-14
+   ```
+
+4. **Run the development server**:
+   ```bash
+   npm run dev
+   ```
+
+5. **Access the application**:
+   - Frontend: http://localhost:3000
+   - Sanity Studio: http://localhost:3000/studio
+
+## 🗂️ Project Structure
 
 ```
 herbal_ecomweb/
+├── public/
+│   └── Images/              # Static images
 ├── src/
 │   ├── app/
-│   │   ├── components/
-│   │   ├── product/
-│   │   ├── order/
-│   │   ├── contact/
-│   │   ├── delivery/
-│   │   └── admin/
-│   ├── lib/
-│   └── product/
-├── backend/
-│   ├── src/
-│   │   ├── config/
-│   │   ├── models/
-│   │   ├── schemas/
-│   │   ├── routes/
-│   │   └── utils/
-│   ├── requirements.txt
-│   ├── .env
-│   ├── Dockerfile
-│   └── docker-compose.yml
-├── public/
-│   └── Images/
-└── types/
+│   │   ├── components/      # React components
+│   │   ├── shop/           # Shop page
+│   │   ├── product/[slug]/ # Dynamic product pages
+│   │   ├── cart/           # Shopping cart
+│   │   ├── about/          # About page
+│   │   └── studio/         # Sanity Studio
+│   ├── sanity/
+│   │   ├── lib/
+│   │   │   ├── client.ts   # Sanity client
+│   │   │   ├── fetch.ts    # Data fetching functions
+│   │   │   ├── queries.ts  # GROQ queries
+│   │   │   └── image.ts    # Image URL builder
+│   │   ├── schemaTypes/    # Sanity schemas
+│   │   │   ├── product.ts
+│   │   │   ├── category.ts
+│   │   │   ├── testimonial.ts
+│   │   │   └── order.ts
+│   │   └── structure.ts    # Studio structure
+│   └── components/
+│       └── ui/             # Reusable UI components
+├── sanity.config.ts        # Sanity configuration
+└── sanity.cli.ts          # Sanity CLI configuration
 ```
 
-## 🚀 Getting Started
+## 📝 Sanity Schemas
 
-### Prerequisites
-- Node.js 18+
-- Python 3.8+
-- PostgreSQL
+### Product Schema
+- Name, slug, description
+- Images (main + gallery)
+- Price, original price
+- Category reference
+- Stock quantity
+- Benefits, ingredients, usage instructions
+- SKU, weight
+- Featured/New Arrival flags
+- Rating
 
-### Frontend Setup
+### Category Schema
+- Name, slug
+- Description
+- Category image
 
-1. Install dependencies:
+### Testimonial Schema
+- Customer name and image
+- Rating (1-5)
+- Testimonial text
+- Related product reference
+- Verified purchase flag
+
+### Order Schema
+- Order number
+- Customer information
+- Shipping address
+- Order items with quantities
+- Total amount
+- Order status
+- Payment status
+
+## 🎨 Key Components
+
+### Homepage
+- Hero section
+- Features showcase
+- Featured products
+- Statistics
+- Customer testimonials
+- CTA section
+- Newsletter signup
+
+### Shop Page
+- Product grid
+- Category filtering
+- Search functionality
+- Product cards with ratings and pricing
+
+### Product Detail Page
+- Image gallery
+- Product information
+- Add to cart
+- Related products
+- Benefits and ingredients
+- Usage instructions
+
+## 🔧 Available Scripts
+
 ```bash
-npm install
+# Development
+npm run dev          # Start development server
+
+# Production
+npm run build        # Build for production
+npm start            # Start production server
+
+# Linting
+npm run lint         # Run ESLint
 ```
 
-2. Create environment file:
-```bash
-cp .env.local.example .env.local
-```
+## 📊 Sanity Studio
 
-3. Set environment variables:
-```env
-NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
-```
+Access the Sanity Studio at `/studio` to manage:
+- Products
+- Categories
+- Orders
+- Testimonials
 
-4. Run the development server:
-```bash
-npm run dev
-```
+### Adding Products
 
-The frontend will be available at `http://localhost:3000`
+1. Go to http://localhost:3000/studio
+2. Click "Products"
+3. Click "Create new Product"
+4. Fill in all required fields:
+   - Product name
+   - Slug (auto-generated from name)
+   - Main image
+   - Category
+   - Price
+   - Description
+   - Stock quantity
+5. Optionally add:
+   - Additional images
+   - Benefits
+   - Ingredients
+   - Usage instructions
+   - Mark as featured or new arrival
+6. Click "Publish"
 
-### Backend Setup
+## 🚀 Deployment
 
-1. Navigate to backend directory:
-```bash
-cd backend
-```
+### Deploy to Vercel
 
-2. Create virtual environment:
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
+1. Push your code to GitHub
+2. Import the project in Vercel
+3. Add environment variables in Vercel dashboard
+4. Deploy
 
-3. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
+### Environment Variables for Production
+- `NEXT_PUBLIC_SANITY_PROJECT_ID`
+- `NEXT_PUBLIC_SANITY_DATASET`
+- `NEXT_PUBLIC_SANITY_API_VERSION`
 
-4. Create environment file:
-```bash
-cp .env.example .env
-```
+## 🔐 Environment Setup
 
-5. Set environment variables in `.env`:
-```env
-DATABASE_URL=postgresql://username:password@localhost/herbal_hair_oil_db
-SECRET_KEY=your-super-secret-key-change-in-production
-ALGORITHM=HS256
-ACCESS_TOKEN_EXPIRE_MINUTES=30
-ADMIN_USERNAME=admin
-ADMIN_PASSWORD=admin123
-```
+The project uses the following Sanity configuration:
+- Project ID: `jfxnntpa`
+- Dataset: `production`
+- API Version: `2026-05-14`
 
-6. Run the server:
-```bash
-python run_server.py
-```
+## 📱 Features to Add (Future Enhancements)
 
-The backend will be available at `http://localhost:8000`
+- [ ] User authentication
+- [ ] Order management system
+- [ ] Payment gateway integration
+- [ ] Wishlist functionality
+- [ ] Product reviews system
+- [ ] Email notifications
+- [ ] Advanced filtering (price range, ratings)
+- [ ] Related product recommendations
+- [ ] Inventory management
+- [ ] Multi-currency support
 
-## 📡 API Endpoints
+## 🐛 Known Issues
 
-### Authentication
-- `POST /admin/login` - Login as admin and get JWT token
-
-### Orders
-- `POST /api/orders` - Create a new order
-- `GET /api/orders` - Get all orders (admin only)
-- `PUT /api/orders/{id}` - Update order status (admin only)
-- `GET /api/orders/{id}` - Get a specific order
-
-## 👥 Admin Dashboard
-
-Access the admin dashboard at `/admin` with default credentials:
-- Username: `admin`
-- Password: `admin123`
-
-## 📦 Order Flow
-
-1. User visits product page and clicks "Order Now"
-2. User fills order form with name, phone, address, city, and quantity
-3. Order is submitted to backend API
-4. Backend generates tracking ID and saves order
-5. WhatsApp message is automatically generated with order details
-6. Admin can view and update order status from dashboard
-
-## 🚢 WhatsApp Integration
-
-When an order is placed, a WhatsApp message is automatically generated in this format:
-```
-New Order 🌿
-Name: [Customer Name]
-Phone: [Customer Phone]
-City: [Customer City]
-Quantity: [Order Quantity]
-```
-
-## 🏗️ Deployment
-
-### Frontend (Vercel)
-1. Push code to GitHub
-2. Import project in Vercel
-3. Deploy with default settings
-
-### Backend (Railway/Render)
-1. Push backend code to GitHub
-2. Import project in Railway/Render
-3. Add PostgreSQL plugin
-4. Set environment variables
-5. Deploy
-
-See `DEPLOYMENT_GUIDE.md` for detailed instructions.
-
-## 🔐 Security
-
-- JWT tokens for admin authentication
-- Passwords stored with bcrypt hashing
-- Input validation on both frontend and backend
-- CORS configured for secure cross-origin requests
-- Environment variables for sensitive data
-
-## 🧪 Testing
-
-### Frontend
-```bash
-npm run build
-npm run dev
-```
-
-### Backend
-```bash
-pytest test_api.py
-```
+- Live content API is currently disabled (requires next-sanity 9.5.0+)
+- Some ESLint warnings about default exports (non-breaking)
 
 ## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
+3. Commit your changes
+4. Push to the branch
+5. Open a pull request
 
 ## 📄 License
 
 This project is licensed under the MIT License.
 
-## 🆘 Support
+## 👥 Support
 
-For support, please open an issue in the GitHub repository.
+For support, email your-email@example.com or open an issue in the repository.
+
+## 🙏 Acknowledgments
+
+- Next.js team for the amazing framework
+- Sanity.io for the powerful CMS
+- Radix UI for accessible components
+- Tailwind CSS for utility-first styling

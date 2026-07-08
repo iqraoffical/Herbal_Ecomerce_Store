@@ -10,7 +10,7 @@ export default function DeliveryPage() {
         
         <div className="max-w-4xl mx-auto">
           <h1 className="text-3xl font-bold text-center text-green-800 mb-2">Delivery Information</h1>
-          <p className="text-center text-gray-600 mb-12">Fast and reliable delivery across India</p>
+          <p className="text-center text-gray-600 mb-12">Fast and reliable delivery across Pakistan</p>
           
           <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
             <div className="flex flex-col md:flex-row items-center mb-8">
@@ -22,7 +22,7 @@ export default function DeliveryPage() {
               </div>
               <div>
                 <h2 className="text-2xl font-bold text-green-800">Delivered by PostEx</h2>
-                <p className="text-gray-600">Indias most trusted delivery partner</p>
+                <p className="text-gray-600">Pakistan&apos;s most trusted delivery partner</p>
               </div>
             </div>
             
@@ -32,7 +32,7 @@ export default function DeliveryPage() {
                 <p className="text-gray-600">Delivery Time</p>
               </div>
               <div className="bg-green-50 p-4 rounded-lg text-center">
-                <div className="text-3xl font-bold text-green-700 mb-2">India</div>
+                <div className="text-3xl font-bold text-green-700 mb-2">Pakistan</div>
                 <p className="text-gray-600">Coverage Area</p>
               </div>
               <div className="bg-green-50 p-4 rounded-lg text-center">
@@ -72,7 +72,7 @@ export default function DeliveryPage() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-lg">Online Payment</h3>
-                  <p className="text-gray-600">Credit/Debit cards, UPI, Net banking</p>
+                  <p className="text-gray-600">Credit/Debit cards, JazzCash, Easypaisa, Net banking</p>
                 </div>
               </div>
             </div>
@@ -98,7 +98,7 @@ export default function DeliveryPage() {
             <div className="text-center">
               <p className="text-gray-600 mb-2">Do not have an order ID?</p>
               <a 
-                href="https://wa.me/1234567890" 
+                href="https://wa.me/923077898899" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="inline-flex items-center text-green-700 hover:text-green-900 font-medium"
@@ -116,7 +116,7 @@ export default function DeliveryPage() {
             <p className="mb-6 max-w-2xl mx-auto">Our customer support team is ready to assist you with any delivery-related queries.</p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <a 
-                href="https://wa.me/1234567890" 
+                href="https://wa.me/923077898899" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="flex items-center justify-center bg-white text-green-700 hover:bg-green-50 font-bold py-3 px-6 rounded-full transition duration-300"
@@ -127,7 +127,7 @@ export default function DeliveryPage() {
                 WhatsApp Support
               </a>
               <a 
-                href="tel:+919876543210" 
+                href="tel:+923077898899" 
                 className="flex items-center justify-center border-2 border-white text-white hover:bg-white hover:text-green-700 font-bold py-3 px-6 rounded-full transition duration-300"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">

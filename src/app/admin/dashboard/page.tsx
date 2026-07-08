@@ -1,245 +1,194 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { ShoppingBag, Clock, Wallet, Package, ArrowUp, Eye } from 'lucide-react';
 
-interface Order {
-  id: number;
-  name: string;
-  phone: string;
-  address: string;
-  city: string;
-  product: string;
-  quantity: number;
-  price: number;
-  status: 'pending' | 'shipped' | 'delivered';
-  tracking_id: string | null;
-  created_at: string;
+interface DashboardStats {
+  totalOrders: number;
+  pendingOrders: number;
+  totalRevenue: number;
+  totalProducts: number;
 }
 
-export default function AdminDashboard() {
-  const [orders, setOrders] = useState<Order[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [updating, setUpdating] = useState<number | null>(null); // Track which order is being updated
-  const router = useRouter();
+interface Order {
+  _id: string;
+  orderNumber: string;
+  customerName: string;
+  customerPhone: string;
+  totalAmount: number;
+  orderStatus: string;
+  items: { quantity: number }[];
+  createdAt: string;
+}
 
-  const fetchOrders = async (token: string) => {
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000'}/api/orders`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        if (response.status === 401) {
-          localStorage.removeItem('adminToken');
-          router.push('/admin');
-          return;
-        }
-        throw new Error('Failed to fetch orders');
-      }
-
-      const data = await response.json();
-      setOrders(data);
-    } catch (err) {
-      setError('An error occurred while fetching orders');
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
+const statusBadge = (status: string) => {
+  const styles: Record<string, string> = {
+    pending: 'bg-yellow-100 text-yellow-800 border-yellow-200',
+    confirmed: 'bg-blue-100 text-blue-800 border-blue-200',
+    dispatched: 'bg-orange-100 text-orange-800 border-orange-200',
+    shipped: 'bg-purple-100 text-purple-800 border-purple-200',
+    delivered: 'bg-green-100 text-green-800 border-green-200',
+    cancelled: 'bg-red-100 text-red-800 border-red-200',
   };
+  return styles[status] || 'bg-gray-100 text-gray-800 border-gray-200';
+};
+
+export default function AdminDashboard() {
+  const [stats, setStats] = useState<DashboardStats>({ totalOrders: 0, pendingOrders: 0, totalRevenue: 0, totalProducts: 0 });
+  const [recentOrders, setRecentOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem('adminToken');
-    if (!token) {
-      router.push('/admin');
-      return;
+    async function fetchData() {
+      try {
+        const [statsRes, ordersRes] = await Promise.all([
+          fetch('/api/admin/dashboard/stats'),
+          fetch('/api/admin/orders'),
+        ]);
+        const statsData = await statsRes.json();
+        const ordersData = await ordersRes.json();
+        setStats(statsData);
+        setRecentOrders(Array.isArray(ordersData) ? ordersData.slice(0, 10) : []);
+      } catch (error) {
+        console.error('Dashboard fetch error:', error);
+      } finally {
+        setLoading(false);
+      }
     }
-
-    fetchOrders(token);
+    fetchData();
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem('adminToken');
-    router.push('/admin');
-  };
-
-  const updateOrderStatus = async (orderId: number, status: string, trackingId?: string) => {
-    setUpdating(orderId);
-    
-    try {
-      const token = localStorage.getItem('adminToken');
-      if (!token) {
-        router.push('/admin');
-        return;
-      }
-
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000'}/api/orders/${orderId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          status,
-          tracking_id: trackingId
-        }),
-      });
-
-      if (!response.ok) {
-        if (response.status === 401) {
-          localStorage.removeItem('adminToken');
-          router.push('/admin');
-          return;
-        }
-        throw new Error('Failed to update order');
-      }
-
-      const updatedOrder = await response.json();
-      
-      // Update the order in the local state
-      setOrders(orders.map(order => 
-        order.id === orderId ? { ...updatedOrder } : order
-      ));
-    } catch (err) {
-      setError('An error occurred while updating the order');
-      console.error(err);
-    } finally {
-      setUpdating(null);
-    }
-  };
+  const statCards = [
+    {
+      label: 'Total Orders',
+      value: stats.totalOrders,
+      icon: ShoppingBag,
+      color: 'bg-blue-500',
+      bgLight: 'bg-blue-50',
+      textColor: 'text-blue-600',
+    },
+    {
+      label: 'Pending Orders',
+      value: stats.pendingOrders,
+      icon: Clock,
+      color: 'bg-yellow-500',
+      bgLight: 'bg-yellow-50',
+      textColor: 'text-yellow-600',
+    },
+    {
+      label: 'Total Revenue',
+      value: `Rs.${(stats.totalRevenue || 0).toLocaleString()}`,
+      icon: Wallet,
+      color: 'bg-green-500',
+      bgLight: 'bg-green-50',
+      textColor: 'text-green-600',
+    },
+    {
+      label: 'Total Products',
+      value: stats.totalProducts,
+      icon: Package,
+      color: 'bg-purple-500',
+      bgLight: 'bg-purple-50',
+      textColor: 'text-purple-600',
+    },
+  ];
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-green-50 to-white flex items-center justify-center">
+      <div className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-700 mx-auto"></div>
-          <p className="mt-4 text-green-700">Loading orders...</p>
+          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-green-700 mx-auto" />
+          <p className="mt-4 text-gray-500">Loading dashboard...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 to-white">
-      <header className="bg-white shadow-sm">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-green-800">Admin Dashboard</h1>
-          <button
-            onClick={handleLogout}
-            className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition duration-300"
-          >
-            Logout
-          </button>
-        </div>
-      </header>
+    <div className="space-y-6">
+      <div>
+        <h2 className="text-2xl font-bold text-gray-900">Dashboard Overview</h2>
+        <p className="text-gray-500 mt-1">Welcome back! Here&apos;s what&apos;s happening today.</p>
+      </div>
 
-      <main className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-green-800 mb-4">All Orders</h2>
-          <p className="text-gray-600">Manage and track customer orders</p>
-        </div>
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {statCards.map((card) => {
+          const Icon = card.icon;
+          return (
+            <div key={card.label} className="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-lg transition-shadow">
+              <div className="flex items-center justify-between mb-3">
+                <div className={`p-2.5 rounded-lg ${card.bgLight}`}>
+                  <Icon className={`h-5 w-5 ${card.textColor}`} />
+                </div>
+                <span className="text-xs text-gray-400 font-medium">This Month</span>
+              </div>
+              <p className="text-2xl font-bold text-gray-900">{card.value}</p>
+              <p className="text-sm text-gray-500 mt-1">{card.label}</p>
+            </div>
+          );
+        })}
+      </div>
 
-        {error && (
-          <div className="mb-6 p-4 bg-red-100 text-red-700 rounded-lg">
-            {error}
+      {/* Recent Orders */}
+      <div className="bg-white rounded-xl border border-gray-200">
+        <div className="flex items-center justify-between p-5 border-b border-gray-100">
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900">Recent Orders</h3>
+            <p className="text-sm text-gray-500">Latest 10 orders across the store</p>
           </div>
-        )}
+          <Link
+            href="/admin/orders"
+            className="text-sm text-green-600 hover:text-green-700 font-medium flex items-center gap-1"
+          >
+            View All
+            <ArrowUp className="h-4 w-4 rotate-45" />
+          </Link>
+        </div>
 
-        {orders.length === 0 ? (
-          <div className="bg-white rounded-xl shadow-md p-8 text-center">
-            <p className="text-gray-600">No orders found</p>
+        {recentOrders.length === 0 ? (
+          <div className="p-10 text-center">
+            <ShoppingBag className="h-12 w-12 text-gray-300 mx-auto mb-3" />
+            <p className="text-gray-500">No orders yet</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="min-w-full bg-white rounded-xl shadow-md overflow-hidden">
-              <thead className="bg-green-700 text-white">
-                <tr>
-                  <th className="py-3 px-4 text-left">ID</th>
-                  <th className="py-3 px-4 text-left">Customer</th>
-                  <th className="py-3 px-4 text-left">Contact</th>
-                  <th className="py-3 px-4 text-left">Location</th>
-                  <th className="py-3 px-4 text-left">Product</th>
-                  <th className="py-3 px-4 text-left">Quantity</th>
-                  <th className="py-3 px-4 text-left">Price</th>
-                  <th className="py-3 px-4 text-left">Status</th>
-                  <th className="py-3 px-4 text-left">Tracking ID</th>
-                  <th className="py-3 px-4 text-left">Actions</th>
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="bg-gray-50 text-gray-600">
+                  <th className="text-left py-3 px-4 font-semibold">Order #</th>
+                  <th className="text-left py-3 px-4 font-semibold">Customer</th>
+                  <th className="text-left py-3 px-4 font-semibold hidden md:table-cell">Phone</th>
+                  <th className="text-right py-3 px-4 font-semibold">Total</th>
+                  <th className="text-center py-3 px-4 font-semibold">Status</th>
+                  <th className="text-right py-3 px-4 font-semibold hidden lg:table-cell">Date</th>
+                  <th className="text-right py-3 px-4 font-semibold">Action</th>
                 </tr>
               </thead>
-              <tbody>
-                {orders.map((order) => (
-                  <tr key={order.id} className="border-b border-gray-200 hover:bg-green-50">
-                    <td className="py-3 px-4">{order.id}</td>
-                    <td className="py-3 px-4 font-medium">{order.name}</td>
-                    <td className="py-3 px-4">{order.phone}</td>
-                    <td className="py-3 px-4">
-                      <div>{order.address}</div>
-                      <div className="text-gray-600">{order.city}</div>
-                    </td>
-                    <td className="py-3 px-4">{order.product}</td>
-                    <td className="py-3 px-4">{order.quantity}</td>
-                    <td className="py-3 px-4">₹{order.price}</td>
-                    <td className="py-3 px-4">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        order.status === 'pending' 
-                          ? 'bg-yellow-100 text-yellow-800' 
-                          : order.status === 'shipped' 
-                            ? 'bg-blue-100 text-blue-800' 
-                            : 'bg-green-100 text-green-800'
-                      }`}>
-                        {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+              <tbody className="divide-y divide-gray-100">
+                {recentOrders.map((order) => (
+                  <tr key={order._id} className="hover:bg-gray-50 transition-colors">
+                    <td className="py-3 px-4 font-medium text-gray-900">{order.orderNumber}</td>
+                    <td className="py-3 px-4 text-gray-700">{order.customerName}</td>
+                    <td className="py-3 px-4 text-gray-500 hidden md:table-cell">{order.customerPhone}</td>
+                    <td className="py-3 px-4 text-right font-semibold text-gray-900">Rs.{order.totalAmount.toLocaleString()}</td>
+                    <td className="py-3 px-4 text-center">
+                      <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-medium border ${statusBadge(order.orderStatus)}`}>
+                        {order.orderStatus.charAt(0).toUpperCase() + order.orderStatus.slice(1)}
                       </span>
                     </td>
-                    <td className="py-3 px-4">
-                      {order.tracking_id ? (
-                        <span className="font-mono text-sm">{order.tracking_id}</span>
-                      ) : (
-                        <span className="text-gray-500">Not assigned</span>
-                      )}
+                    <td className="py-3 px-4 text-right text-gray-500 hidden lg:table-cell">
+                      {new Date(order.createdAt).toLocaleDateString('en-PK', { day: 'numeric', month: 'short', year: 'numeric' })}
                     </td>
-                    <td className="py-3 px-4">
-                      <div className="flex flex-col gap-2">
-                        <select
-                          value={order.status}
-                          onChange={(e) => updateOrderStatus(order.id, e.target.value)}
-                          className="w-full px-2 py-1 border border-gray-300 rounded text-sm"
-                          disabled={updating === order.id}
-                        >
-                          <option value="pending">Pending</option>
-                          <option value="shipped">Shipped</option>
-                          <option value="delivered">Delivered</option>
-                        </select>
-                        
-                        <div className="flex gap-2">
-                          <input
-                            type="text"
-                            placeholder="Tracking ID"
-                            value={order.tracking_id || ''}
-                            onChange={(e) => {
-                              // Update the tracking ID in the UI immediately
-                              setOrders(orders.map(o => 
-                                o.id === order.id ? { ...o, tracking_id: e.target.value } : o
-                              ));
-                            }}
-                            className="flex-1 px-2 py-1 border border-gray-300 rounded text-sm"
-                            disabled={updating === order.id}
-                          />
-                          <button
-                            onClick={() => updateOrderStatus(order.id, order.status, order.tracking_id || undefined)}
-                            className={`px-2 py-1 rounded text-sm ${
-                              updating === order.id 
-                                ? 'bg-gray-400' 
-                                : 'bg-green-600 hover:bg-green-700 text-white'
-                            }`}
-                            disabled={updating === order.id}
-                          >
-                            {updating === order.id ? 'Updating...' : 'Update'}
-                          </button>
-                        </div>
-                      </div>
+                    <td className="py-3 px-4 text-right">
+                      <Link
+                        href={`/admin/orders/${order._id}`}
+                        className="inline-flex items-center gap-1 text-green-600 hover:text-green-700 font-medium text-xs"
+                      >
+                        <Eye className="h-3.5 w-3.5" />
+                        View
+                      </Link>
                     </td>
                   </tr>
                 ))}
@@ -247,7 +196,7 @@ export default function AdminDashboard() {
             </table>
           </div>
         )}
-      </main>
+      </div>
     </div>
   );
 }

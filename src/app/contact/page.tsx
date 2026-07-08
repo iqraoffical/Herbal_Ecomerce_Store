@@ -20,7 +20,7 @@ export default function ContactPage() {
                 </svg>
               </div>
               <h3 className="text-xl font-semibold mb-2 text-green-800">Call Us</h3>
-              <p className="text-gray-600">+91 98765 43210</p>
+              <p className="text-gray-600">+92 304 7898899</p>
               <p className="text-gray-500 text-sm">Mon-Fri, 9AM-6PM</p>
             </div>
             
@@ -31,7 +31,7 @@ export default function ContactPage() {
                 </svg>
               </div>
               <h3 className="text-xl font-semibold mb-2 text-green-800">Email Us</h3>
-              <p className="text-gray-600">info@herbalhairoil.com</p>
+              <p className="text-gray-600">info@herbalhairoil.pk</p>
               <p className="text-gray-500 text-sm">We reply within 24 hours</p>
             </div>
             
@@ -43,8 +43,8 @@ export default function ContactPage() {
                 </svg>
               </div>
               <h3 className="text-xl font-semibold mb-2 text-green-800">Visit Us</h3>
-              <p className="text-gray-600">123 Herbal Street</p>
-              <p className="text-gray-500 text-sm">Bangalore, Karnataka 560001</p>
+              <p className="text-gray-600">Karachi</p>
+              <p className="text-gray-500 text-sm">Sindh, Pakistan</p>
             </div>
           </div>
           
@@ -54,7 +54,7 @@ export default function ContactPage() {
             <div className="flex flex-col items-center">
               <div className="flex flex-wrap justify-center gap-6 mb-8">
                 <a 
-                  href="https://wa.me/1234567890" 
+                  href="https://wa.me/923077898899" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="flex items-center justify-center w-16 h-16 bg-green-600 rounded-full text-white shadow-lg hover:scale-110 transition-transform"
@@ -76,7 +76,7 @@ export default function ContactPage() {
                 </a>
                 
                 <a 
-                  href="mailto:info@herbalhairoil.com" 
+                  href="mailto:info@herbalhairoil.pk" 
                   className="flex items-center justify-center w-16 h-16 bg-blue-600 rounded-full text-white shadow-lg hover:scale-110 transition-transform"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
@@ -95,7 +95,7 @@ export default function ContactPage() {
             <h2 className="text-2xl font-bold mb-4">Have Questions About Our Products?</h2>
             <p className="mb-6 max-w-2xl mx-auto">Our experts are ready to help you find the perfect solution for your hair care needs.</p>
             <a 
-              href="https://wa.me/1234567890" 
+              href="https://wa.me/923077898899" 
               target="_blank" 
               rel="noopener noreferrer"
               className="inline-block bg-yellow-500 hover:bg-yellow-600 text-green-900 font-bold py-3 px-8 rounded-full transition duration-300"
