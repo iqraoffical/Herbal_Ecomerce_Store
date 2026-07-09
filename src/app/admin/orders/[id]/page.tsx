@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowLeft, Printer, Package, Clock, CheckCircle2, XCircle, MessageCircle, Trash } from 'lucide-react';
+import { ArrowLeft, Printer, PackageCheck, Clock, CheckCircle2, XCircle, MessageCircle, Trash } from 'lucide-react';
 import { getWhatsAppUrl, getNewOrderMessage } from '@/lib/whatsapp';
 
 interface OrderItem {
