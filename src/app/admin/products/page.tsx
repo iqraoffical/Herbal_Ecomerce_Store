@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { Plus, Package, Edit, Trash, X, Search, Eye, EyeOff } from 'lucide-react';
 
 interface Category {
@@ -238,9 +239,11 @@ export default function ProductsPage() {
                     <td className="py-3 px-4">
                       <div className="flex items-center gap-3">
                         <div className="w-12 h-12 bg-gradient-to-b from-green-50 to-white rounded-lg border flex items-center justify-center flex-shrink-0 overflow-hidden">
-                          <img
+                          <Image
                             src={product.imageUrl || '/Images/herbal_hair_oil.png'}
                             alt={product.name}
+                            width={48}
+                            height={48}
                             className="w-full h-full object-contain p-1"
                             onError={(e) => { (e.target as HTMLImageElement).src = '/Images/herbal_hair_oil.png'; }}
                           />

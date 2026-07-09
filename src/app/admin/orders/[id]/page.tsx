@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Printer, PackageCheck, Clock, CheckCircle2, XCircle, MessageCircle, Trash } from 'lucide-react';
+import Image from 'next/image';
+import { ArrowLeft, Printer, Package, Clock, CheckCircle2, XCircle, MessageCircle, Trash } from 'lucide-react';
 import { getWhatsAppUrl, getNewOrderMessage } from '@/lib/whatsapp';
 
 interface OrderItem {
@@ -269,9 +270,11 @@ export default function OrderDetailPage() {
               {order.items.map((item, index) => (
                 <div key={index} className="flex items-center gap-4 p-3 bg-gray-50 rounded-lg">
                   <div className="w-16 h-16 bg-white rounded-lg border flex items-center justify-center flex-shrink-0 overflow-hidden">
-                    <img
+                    <Image
                       src={item.productImage || item.product?.imageUrl || '/Images/herbal_hair_oil.png'}
                       alt={item.productName || item.product?.name || 'Product'}
+                      width={64}
+                      height={64}
                       className="w-full h-full object-contain p-1"
                       onError={(e) => { (e.target as HTMLImageElement).src = '/Images/herbal_hair_oil.png'; }}
                     />

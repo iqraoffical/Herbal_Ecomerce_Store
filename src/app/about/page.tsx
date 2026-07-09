@@ -4,12 +4,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Leaf, Award, Users, Target, Heart, Shield } from "lucide-react";
 
-const team = [
-  { name: "Dr. Rajesh Sharma", role: "Ayurvedic Expert", image: "/avatars/team1.jpg" },
-  { name: "Priya Mehta", role: "Product Development", image: "/avatars/team2.jpg" },
-  { name: "Amit Patel", role: "Quality Control", image: "/avatars/team3.jpg" },
-];
-
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-background">
