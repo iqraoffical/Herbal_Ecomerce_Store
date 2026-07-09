@@ -21,7 +21,6 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import {
-  getProductBySlug,
   getRelatedProducts,
   type Product,
 } from "@/sanity/lib/fetch";
@@ -41,7 +40,9 @@ export default function ProductDetailPage() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const productData = await getProductBySlug(slug);
+        const res = await fetch(`/api/sanity/products/${encodeURIComponent(slug)}`);
+        if (!res.ok) throw new Error('Product not found');
+        const productData = await res.json();
         if (productData) {
           setProduct(productData);
           const related = await getRelatedProducts(
@@ -229,6 +230,21 @@ export default function ProductDetailPage() {
               )}
 
               <p className="text-gray-700 mb-6 leading-relaxed">{product.description}</p>
+
+              {product.longDescription && product.longDescription.length > 0 && (
+                <div className="mb-6">
+                  {product.longDescription.map((block: any, i: number) => {
+                    if (block._type === 'block') {
+                      return (
+                        <p key={i} className="text-gray-700 leading-relaxed mb-3">
+                          {block.children?.map((child: any) => child.text).join(' ')}
+                        </p>
+                      );
+                    }
+                    return null;
+                  })}
+                </div>
+              )}
 
               <div className="flex items-center gap-4 mb-6">
                 <span className="text-4xl font-bold text-green-700">
