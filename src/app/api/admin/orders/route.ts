@@ -59,6 +59,8 @@ export async function POST(request: NextRequest) {
     const count = await client.fetch(`count(*[_type == "order"])`); // read-only
     const orderNumber = `ORD-${String(count + 1).padStart(4, '0')}`;
 
+    console.log('Creating order with serverClient, token exists:', !!serverClient.config().token);
+
     const order = await serverClient.create({
       _type: 'order',
       orderNumber,
@@ -69,10 +71,10 @@ export async function POST(request: NextRequest) {
     });
 
     return NextResponse.json(order, { status: 201 });
-  } catch (error) {
-    console.error('Order creation error:', error);
+  } catch (error: any) {
+    console.error('Order creation error:', error?.message || error);
     return NextResponse.json(
-      { error: 'Failed to create order' },
+      { error: 'Failed to create order', detail: error?.message || 'Unknown error' },
       { status: 500 }
     );
   }
