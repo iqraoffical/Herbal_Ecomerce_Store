@@ -94,11 +94,12 @@ export default function OrderPage() {
           router.push('/');
         }, 3000);
       } else {
-        throw new Error(result.detail || 'Failed to place order');
+        throw new Error(result.error || result.detail || 'Failed to place order');
       }
     } catch (error) {
       console.error('Error submitting order:', error);
-      alert('There was an error placing your order. Please try again.');
+      const message = error instanceof Error ? error.message : 'Something went wrong. Please try again.';
+      alert(message);
     } finally {
       setIsSubmitting(false);
     }

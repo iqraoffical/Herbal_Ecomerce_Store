@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { client } from '@/sanity/lib/client';
+import { serverClient as client, client as readClient } from '@/sanity/lib/client';
 
 export async function GET() {
   try {
-    const products = await client.fetch(`*[_type == "product"] | order(_createdAt desc) {
+    const products = await readClient.fetch(`*[_type == "product"] | order(_createdAt desc) {
       _id,
       name,
       slug,

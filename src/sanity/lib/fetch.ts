@@ -1,3 +1,4 @@
+// Update fetch.ts to use CDN-optimized client for public pages
 import { client } from './client'
 import {
   productsQuery,

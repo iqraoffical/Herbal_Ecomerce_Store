@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { client } from '@/sanity/lib/client';
+import { client } from '@/sanity/lib/client'; // read-only is fine for stats
 
 export async function GET() {
   try {
