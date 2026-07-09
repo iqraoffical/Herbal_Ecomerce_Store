@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { serverClient as client, client as readClient } from '@/sanity/lib/client';
+import { client, serverClient } from '@/sanity/lib/client';
 
 export async function GET() {
   try {
-    const products = await readClient.fetch(`*[_type == "product"] | order(_createdAt desc) {
+    const products = await client.fetch(`*[_type == "product"] | order(_createdAt desc) {
       _id,
       name,
       slug,
@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
       ? data.slug
       : { current: data.name?.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') || 'untitled' };
 
-    const product = await client.create({
+    const product = await serverClient.create({
       _type: 'product',
       ...data,
       slug,

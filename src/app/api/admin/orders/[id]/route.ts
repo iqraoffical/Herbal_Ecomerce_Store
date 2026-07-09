@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { serverClient as client } from '@/sanity/lib/client';
+import { client } from '@/sanity/lib/client'; // read-only is fine here
 
 export async function GET(
   _request: NextRequest,

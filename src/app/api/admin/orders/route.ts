@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { serverClient as client } from '@/sanity/lib/client';
+import { client, serverClient } from '@/sanity/lib/client';
 
 export async function GET(request: NextRequest) {
   try {
@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
 
     filter += '] | order(createdAt desc)';
 
-    const orders = await client.fetch(
+    const orders = await client.fetch( // read-only
       `${filter} {
         _id,
         orderNumber,
@@ -56,10 +56,10 @@ export async function POST(request: NextRequest) {
     const data = await request.json();
 
     // Generate order number
-    const count = await client.fetch(`count(*[_type == "order"])`);
+    const count = await client.fetch(`count(*[_type == "order"])`); // read-only
     const orderNumber = `ORD-${String(count + 1).padStart(4, '0')}`;
 
-    const order = await client.create({
+    const order = await serverClient.create({
       _type: 'order',
       orderNumber,
       ...data,

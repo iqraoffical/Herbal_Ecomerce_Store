@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { serverClient as client } from '@/sanity/lib/client';
+import { serverClient } from '@/sanity/lib/client';
 
 export async function PATCH(
   request: NextRequest,
@@ -16,7 +16,7 @@ export async function PATCH(
     delete updates._updatedAt;
     delete updates._rev;
 
-    const result = await client
+    const result = await serverClient
       .patch(id)
       .set(updates)
       .commit({ autoGenerateArrayKeys: true, skipCrossDatasetReferenceValidation: true });
@@ -38,18 +38,18 @@ export async function DELETE(
     const { id } = await params;
 
     // Step 1: Find all orders referencing this product
-    const ordersRef = await client.fetch(
+    const ordersRef = await serverClient.fetch(
       `*[_type == "order" && references("${id}")] { _id }`
     );
 
     // Step 2: Clear items from those orders
     for (const order of ordersRef) {
-      await client.patch(order._id).set({ items: [] }).commit();
+      await serverClient.patch(order._id).set({ items: [] }).commit();
     }
 
     // Step 3: Delete the product
-    await client.delete(id);
-    try { await client.delete(`drafts.${id}`); } catch {}
+    await serverClient.delete(id);
+    try { await serverClient.delete(`drafts.${id}`); } catch {}
 
     return NextResponse.json({ success: true });
   } catch (error: unknown) {

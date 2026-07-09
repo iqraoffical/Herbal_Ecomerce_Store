@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { serverClient as client, client as readClient } from '@/sanity/lib/client';
+import { client, serverClient } from '@/sanity/lib/client';
 
 export async function GET() {
   try {
-    const categories = await readClient.fetch(`*[_type == "category"] | order(name asc) {
+    const categories = await client.fetch(`*[_type == "category"] | order(name asc) {
       _id,
       name,
       slug,
@@ -24,7 +24,7 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const data = await request.json();
-    const category = await client.create({
+    const category = await serverClient.create({
       _type: 'category',
       name: data.name,
       slug: { current: data.slug || data.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') },
@@ -49,7 +49,7 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'Category ID required' }, { status: 400 });
     }
 
-    await client.delete(id);
+    await serverClient.delete(id);
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Category delete error:', error);
