@@ -40,16 +40,27 @@ export default function ProductDetailPage() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch(`/api/sanity/products/${encodeURIComponent(slug)}`);
-        if (!res.ok) throw new Error('Product not found');
+        const encodedSlug = encodeURIComponent(slug);
+        console.log("Fetching product with slug:", slug, "encoded:", encodedSlug);
+        const res = await fetch(`/api/sanity/products/${encodedSlug}`);
+        if (!res.ok) {
+          const errorData = await res.json().catch(() => ({}));
+          console.error("API response not OK:", res.status, errorData);
+          throw new Error(errorData.error || 'Product not found');
+        }
         const productData = await res.json();
+        console.log("Product data received:", productData ? "yes" : "no", productData?.name);
         if (productData) {
           setProduct(productData);
-          const related = await getRelatedProducts(
-            productData.category.slug.current,
-            slug
-          );
-          setRelatedProducts(related);
+          try {
+            const related = await getRelatedProducts(
+              productData.category?.slug?.current,
+              slug
+            );
+            setRelatedProducts(related || []);
+          } catch (relatedErr) {
+            console.error("Error fetching related products:", relatedErr);
+          }
         }
       } catch (error) {
         console.error("Error fetching product:", error);
@@ -424,7 +435,7 @@ export default function ProductDetailPage() {
                     key={relatedProduct._id}
                     className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
                   >
-                    <Link href={`/product/${relatedProduct.slug.current}`}>
+                    <Link href={`/product/${encodeURIComponent(relatedProduct.slug.current)}`}>
                       <div className="relative bg-gradient-to-b from-green-50 to-white p-4">
                         <Image
                           src={relatedProduct.imageUrl || "/Images/herbal_hair_oil.png"}
@@ -436,7 +447,7 @@ export default function ProductDetailPage() {
                       </div>
                     </Link>
                     <CardContent className="p-4">
-                      <Link href={`/product/${relatedProduct.slug.current}`}>
+                      <Link href={`/product/${encodeURIComponent(relatedProduct.slug.current)}`}>
                         <h3 className="font-semibold text-gray-900 mb-2 hover:text-green-700 line-clamp-2">
                           {relatedProduct.name}
                         </h3>

@@ -136,7 +136,7 @@ export default function ShopPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredProducts.slice(0, 3).map((product) => (
               <Card key={product._id} className="overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                <Link href={`/product/${product.slug?.current || product._id}`}>
+                <Link href={`/product/${encodeURIComponent(product.slug?.current || product._id)}`}>
                   <div className="relative bg-gradient-to-b from-green-50 to-white p-6 cursor-pointer">
                     {product.isFeatured && (
                       <Badge className="absolute top-4 right-4 bg-green-700">
@@ -160,7 +160,7 @@ export default function ShopPage() {
                   </div>
                 </Link>
                 <CardContent className="p-6">
-                  <Link href={`/product/${product.slug?.current || product._id}`}>
+                  <Link href={`/product/${encodeURIComponent(product.slug?.current || product._id)}`}>
                     <h3 className="text-lg font-semibold text-gray-900 mb-2 hover:text-green-700 cursor-pointer">
                       {product.name}
                     </h3>

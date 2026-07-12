@@ -28,7 +28,8 @@ export default function Footer() {
     { icon: Instagram, href: "https://instagram.com/herbalhairoil", label: "Instagram" },
     { icon: Facebook, href: "https://facebook.com/herbalhairoil", label: "Facebook" },
     // { icon: Twitter, href: "https://twitter.com/herbalhairoil", label: "Twitter" },
-    { icon: Youtube, href: "https://youtube.com/herbalhairoil", label: "YouTube" },
+    // { icon: Youtube, href: "https://youtube.com/herbalhairoil", label: "YouTube" },
+    
   ];
 
   return (
@@ -117,6 +118,9 @@ export default function Footer() {
                 <a href="mailto:info@herbalhairoil.pk" className="text-sm hover:text-green-400 transition-colors">
                   info@herbalhairoil.pk
                 </a>
+                 <Link href="/admin" className="text-gray-600 hover:text-green-500 transition-colors text-xs">
+              Admin
+            </Link>
               </li>
             </ul>
 
@@ -128,8 +132,11 @@ export default function Footer() {
                 {/* <div className="bg-white px-3 py-1.5 rounded text-xs font-semibold text-gray-700">MasterCard</div> */}
                 <div className="bg-white px-3 py-1.5 rounded text-xs font-semibold text-gray-700">COD</div>
                 {/* <div className="bg-white px-3 py-1.5 rounded text-xs font-semibold text-gray-700">PayPal</div> */}
+          
               </div>
+            
             </div>
+            
           </div>
         </div>
       </div>
@@ -142,13 +149,12 @@ export default function Footer() {
           <p className="text-sm text-center md:text-left">
             © {currentYear} HerbalHairOil. All rights reserved.
           </p>
+           
           <div className="flex items-center gap-4 text-sm">
             <span>Made with</span>
             <span className="text-red-500">❤</span>
             <span>for healthy hair</span>
-            <Link href="/admin" className="text-gray-600 hover:text-green-500 transition-colors text-xs">
-              Admin
-            </Link>
+          
           </div>
         </div>
       </div>

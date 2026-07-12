@@ -60,7 +60,7 @@ export default function CartPage() {
                 <Card key={item._id} className="border-0 shadow-md">
                   <CardContent className="p-6">
                     <div className="flex gap-4">
-                      <Link href={`/product/${item.slug}`}>
+                      <Link href={`/product/${encodeURIComponent(item.slug)}`}>
                         <div className="w-24 h-24 bg-gradient-to-b from-green-50 to-white rounded-lg flex items-center justify-center flex-shrink-0 cursor-pointer hover:shadow-lg transition-shadow">
                           <Image
                             src={item.imageUrl || "/Images/herbal_hair_oil.png"}
@@ -75,7 +75,7 @@ export default function CartPage() {
                       <div className="flex-1">
                         <div className="flex justify-between items-start mb-2">
                           <div>
-                            <Link href={`/product/${item.slug}`}>
+                            <Link href={`/product/${encodeURIComponent(item.slug)}`}>
                               <h3 className="font-semibold text-gray-900 text-lg hover:text-green-700 cursor-pointer">
                                 {item.name}
                               </h3>

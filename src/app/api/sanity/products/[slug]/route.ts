@@ -8,11 +8,11 @@ export async function GET(
   try {
     const { slug } = await params;
 
-    // Try exact slug first
-    const exactSlug = decodeURIComponent(slug).toLowerCase();
+    // Try exact slug first (case-insensitive, with spaces preserved)
+    const exactSlug = decodeURIComponent(slug).toLowerCase().trim();
 
     const product = await client.fetch(
-      `*[_type == "product" && slug.current == $slug][0] {
+      `*[_type == "product" && lower(slug.current) == $slug][0] {
         _id, name, slug,
         "imageUrl": image.asset->url, "images": images[].asset->url,
         price, originalPrice, description, longDescription,
@@ -35,7 +35,7 @@ export async function GET(
       .replace(/-+/g, '-');
 
     const product2 = await client.fetch(
-      `*[_type == "product" && slug.current == $slug][0] {
+      `*[_type == "product" && lower(slug.current) == $slug][0] {
         _id, name, slug,
         "imageUrl": image.asset->url, "images": images[].asset->url,
         price, originalPrice, description, longDescription,
