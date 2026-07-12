@@ -1,5 +1,3 @@
-'use client'
-
 /**
  * This configuration is used to for the Sanity Studio that's mounted on the `\src\app\studio\[[...tool]]\page.tsx` route
  */
@@ -10,7 +8,7 @@ import {structureTool} from 'sanity/structure'
 
 // Go to https://www.sanity.io/docs/api-versioning to learn how API versioning works
 import {apiVersion, dataset, projectId} from './src/sanity/env'
-import {schemaTypes} from './src/sanity/schemaTypes'
+import {schemaTypes} from './src/sanity/schemaTypes/index'
 import {structure} from './src/sanity/structure'
 
 export default defineConfig({

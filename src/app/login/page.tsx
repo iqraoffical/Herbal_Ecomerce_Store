@@ -7,7 +7,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
-import Link from "next/link";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
@@ -166,12 +165,7 @@ export default function LoginPage() {
 
                 {isLogin && (
                   <div className="text-right">
-                    <Link
-                      href="/forgot-password"
-                      className="text-sm text-green-700 hover:underline"
-                    >
-                      Forgot password?
-                    </Link>
+                    <span className="text-sm text-gray-400">Forgot password?</span>
                   </div>
                 )}
 

@@ -244,11 +244,12 @@ export default function ProductDetailPage() {
 
               {product.longDescription && product.longDescription.length > 0 && (
                 <div className="mb-6">
-                  {product.longDescription.map((block: any, i: number) => {
+                  {product.longDescription.map((block: { _type?: string; children?: { text: string }[] }, i: number) => {
                     if (block._type === 'block') {
+                      const text = block.children?.map((child: { text: string }) => child.text).join(' ') || '';
                       return (
                         <p key={i} className="text-gray-700 leading-relaxed mb-3">
-                          {block.children?.map((child: any) => child.text).join(' ')}
+                          {text}
                         </p>
                       );
                     }

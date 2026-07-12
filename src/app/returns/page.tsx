@@ -5,7 +5,6 @@ import Footer from "../components/Footer";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Package, RefreshCw, ShieldCheck, Clock, MessageCircle, AlertCircle } from "lucide-react";
-import Link from "next/link";
 
 export default function ReturnsPage() {
   return (

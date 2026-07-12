@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
-import { Leaf, Mail, Phone, MapPin, Instagram, Facebook, Youtube } from "lucide-react";
+import { Leaf, Mail, Phone, MapPin, Instagram, Facebook } from "lucide-react";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -10,7 +10,6 @@ export default function Footer() {
   const footerLinks = {
     quickLinks: [
       { label: "Home", href: "/" },
-      { label: "Products", href: "/product" },
       { label: "Shop", href: "/shop" },
       { label: "About Us", href: "/about" },
       { label: "Contact", href: "/contact" },

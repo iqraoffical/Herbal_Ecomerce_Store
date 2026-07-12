@@ -1,7 +1,7 @@
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { Badge } from "@/components/ui/badge";
-import { Shield, Eye, Database, Cookie, Mail, Lock } from "lucide-react";
+import { Shield, Eye, Database, Cookie, Mail } from "lucide-react";
 
 export default function PrivacyPage() {
   return (

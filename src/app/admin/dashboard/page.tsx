@@ -206,21 +206,6 @@ function DropdownFilter({
   );
 }
 
-function StatCardSkeleton() {
-  return (
-    <div className="bg-white rounded-xl border border-gray-200 p-5">
-      <div className="flex items-center justify-between mb-3">
-        <div className="p-2.5 rounded-lg bg-gray-100">
-          <div className="h-5 w-5 rounded bg-gray-200" />
-        </div>
-        <div className="h-3 w-16 rounded bg-gray-100" />
-      </div>
-      <div className="h-7 w-24 rounded bg-gray-100 mb-1 animate-pulse" />
-      <div className="h-4 w-20 rounded bg-gray-100 animate-pulse" />
-    </div>
-  );
-}
-
 export default function AdminDashboard() {
   const [stats, setStats] = useState<DashboardStats>({ totalOrders: 0, pendingOrders: 0, totalRevenue: 0, totalProducts: 0 });
   const [recentOrders, setRecentOrders] = useState<Order[]>([]);

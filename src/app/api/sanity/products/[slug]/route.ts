@@ -74,10 +74,11 @@ export async function GET(
       { error: `Product not found for slug: ${exactSlug}` },
       { status: 404 }
     );
-  } catch (error: any) {
-    console.error('Product API error:', error?.message || error);
+  } catch (error: unknown) {
+    const msg = error instanceof Error ? error.message : 'Unknown error';
+    console.error('Product API error:', msg);
     return NextResponse.json(
-      { error: 'Failed to fetch product', detail: error?.message || 'Unknown error' },
+      { error: 'Failed to fetch product', detail: msg },
       { status: 500 }
     );
   }
